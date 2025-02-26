@@ -1,0 +1,11 @@
+ADMIN: 
+ Email: noah@gmail.com
+ Password: noah^123
+ ------------------------------------
+CUSTOMER:
+ Email: oliver@gmail.com
+ Password: oliver^123
+ ------------------------------------
+CUSTOMER:
+ Email: liam@gmail.com
+ Password: liam^123
