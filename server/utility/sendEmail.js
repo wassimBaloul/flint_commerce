@@ -2,18 +2,20 @@ const nodemailer = require("nodemailer");
 
 const sendOrderEmail = async (orderData) => {
   try {
+    // Create a transporter object using the email service (e.g., Gmail)
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL_USER, // Store in .env file
-        pass: process.env.EMAIL_PASS, // Store in .env file
+        user: process.env.EMAIL_USER, // Email address used to send the email
+        pass: process.env.EMAIL_PASS, // Password for the email account
       },
     });
 
+    // Define the email content
     const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: process.env.STORE_OWNER_EMAIL, // Store owner's email
-      subject: "New Order Received",
+      from: process.env.EMAIL_USER, // Sender email address
+      to: process.env.STORE_OWNER_EMAIL, // Store owner's email address (recipient)
+      subject: "New Order Received", // Email subject
       html: `
         <h2>New Order Received</h2>
         <p><strong>Customer Name:</strong> ${orderData.userId}</p>
@@ -32,6 +34,7 @@ const sendOrderEmail = async (orderData) => {
       `,
     };
 
+    // Send the email
     await transporter.sendMail(mailOptions);
     console.log("Order email sent successfully.");
   } catch (error) {

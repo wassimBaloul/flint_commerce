@@ -21,10 +21,10 @@ import { Badge } from '../ui/badge'
 import { Dialog } from '../ui/dialog'
 import Admin_Order_Detail from './Admin_Order_Detail'
 import { useDispatch , useSelector } from 'react-redux'
-import { handleFetchAllAdminOrders } from '@/store/admin-slice/admin_orders'
+import { handleFetchAllAdminOrders ,handleDeleteOrder } from '@/store/admin-slice/admin_orders'
 import Paginator from '../utility/Paginator'
 import { Label } from '../ui/label'
-import { PackageOpen } from 'lucide-react';
+import { PackageOpen , Trash2  } from 'lucide-react';
 
 function orderColorMapper(status)
 {
@@ -74,6 +74,13 @@ useEffect(() => {
         behavior : "smooth"
     });
 },[filterStatus])
+
+const handleRemoveOrder = async (orderId) => {
+    if (window.confirm('Are you sure you want to delete this order?')) {
+        await dispatch(handleDeleteOrder(orderId)); // Dispatch the delete action
+        dispatch(handleFetchAllAdminOrders({ token, currentOrderPage, filterStatus })); // Refresh the order list
+    }
+};
 
   return (
     <Card>
@@ -160,6 +167,12 @@ useEffect(() => {
                                                     setAdminSelectedOrder(order);
                                                     setOpenDetailDialog(true);
                                                     }} >View Details</Button>
+                                                     <Button
+                                                variant="destructive"
+                                                onClick={() => handleRemoveOrder(order._id)}
+                                            >
+                                                <Trash2 className="w-4 h-4" /> {/* Add a trash icon */}
+                                            </Button>
                                             </TableCell>
                                         </TableRow>
                                     )

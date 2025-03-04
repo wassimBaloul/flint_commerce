@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { sizeOptions } from "../../config/config";
-import { BadgeCheck, IndianRupeeIcon, Plus, RefreshCcw, SendHorizonal } from "lucide-react";
+import { BadgeCheck, IndianRupeeIcon, DollarSign, Plus, RefreshCcw, SendHorizonal } from "lucide-react";
 import { handleAddtoCart } from "@/store/customer-slice/cart";
 import { useToast } from "@/hooks/use-toast";
 import { fetchProductDetails, fetchSimilarProducts } from "@/store/customer-slice/products";
@@ -299,7 +299,7 @@ function ProductDetails() {
               </p>
               <p className="flex justify-start gap-2 items-center">
                 <span>
-                  <IndianRupeeIcon size={17} />
+                  <DollarSign size={17} />
                 </span>
                 No Hidden Charges
               </p>
@@ -308,19 +308,31 @@ function ProductDetails() {
         </div>
       </div>
 
-      {/* Similar */}
       {similarProducts.length > 0 && (
-        <div className="w-full flex flex-col justify-center items-center gap-5">
-          <h2 className="text-2xl font-medium tracking-wide text-gray-800 text-center">
-            SIMILAR <span className="text-red-500 font-normal">PRODUCTS</span>
-          </h2>
-          <div className="w-[80%] grid justify-center gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
-            {similarProducts.map((item, index) => (
-              <Customer_ProductCard key={index} product={item} />
-            ))}
+  <div className="w-full flex flex-col justify-center items-center gap-5 py-8">
+    {/* Heading */}
+    <h2 className="text-2xl font-medium tracking-wide text-gray-800 text-center">
+      SIMILAR <span className="text-red-500 font-normal">PRODUCTS</span>
+    </h2>
+
+    {/* Products Grid */}
+    <div className="w-full max-w-6xl px-4">
+      <div
+        className="grid gap-1"
+        style={{
+          gridTemplateColumns: `repeat(auto-fit, minmax(150px, 1fr))`,
+          justifyItems: "center",
+        }}
+      >
+        {similarProducts.map((item, index) => (
+          <div key={index} className="w-full max-w-[200px]">
+            <Customer_ProductCard product={item} />
           </div>
-        </div>
-      )}
+        ))}
+      </div>
+    </div>
+  </div>
+)}
 
       {/* Review */}
       <div className="w-full flex flex-col items-center gap-2">

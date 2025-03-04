@@ -31,6 +31,26 @@ export const handleUpdateAdminOrders = createAsyncThunk('/adminOrder/update',asy
     return res?.data;
 })
 
+export const handleDeleteOrder = createAsyncThunk(
+    'adminOrders/deleteOrder',
+    async (orderId, { rejectWithValue, dispatch }) => {
+        try {
+            const token = localStorage.getItem('flint_token') ? localStorage.getItem('flint_token') : 'Invalid';
+            const response = await axios.delete(
+                `${import.meta.env.VITE_SERVER_BASE_URL}/api/admin/orders/delete/${orderId}`, // Use the correct backend URL
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
+            if (response.data.success) {
+                dispatch(handleFetchAllAdminOrders({ token, currentOrderPage: 1, filterStatus: 'All' })); // Refresh the order list
+            }
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
 
 const AdminOrderSlice = createSlice({
     name : "adminOrder",

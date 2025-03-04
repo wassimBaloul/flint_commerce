@@ -115,9 +115,11 @@ function Catalog() {
 
         {/* Products Grid */}
         {products && products.length > 0 ? (
-          <div className="grid gap-6 p-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          <div className="grid gap-4 p-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {products.map((product, index) => (
-              <Customer_ProductCard key={index} product={product} />
+              <div key={index} className="w-full">
+                <Customer_ProductCard product={product} />
+              </div>
             ))}
           </div>
         ) : (

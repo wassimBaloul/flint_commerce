@@ -39,7 +39,7 @@ function Customer_Footer() {
               </div>
             </div>
             <div className="mt-8 border-t border-gray-400 py-4 text-center">
-              <p>Flint &copy; 2024</p>
+              <p>Flint &copy; 2025</p>
             </div>
           </div>
       </footer>

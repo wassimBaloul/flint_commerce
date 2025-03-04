@@ -21,53 +21,51 @@ import { Badge } from '../ui/badge';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
 
-function MenuBar({setCustomerDrawer})
-{
-
+function MenuBar({ setCustomerDrawer }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [searchParams,setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { user } = useSelector((state) => state.auth); // Access the user object from Redux store
 
-  function handleFilteredNavigation(item,route)
-  {
+  function handleFilteredNavigation(item, route) {
     sessionStorage.removeItem("filter");
-    
-    if(item === "Home")
-    {
+
+    if (item === "Home") {
       navigate(route);
       return;
-    }
-    else if(item === "Collection")
-    {
+    } else if (item === "Collection") {
       navigate(route);
       return;
     }
 
     const filter = {
-      Category : [item]
+      Category: [item]
     };
-    sessionStorage.setItem("filter",JSON.stringify(filter));
+    sessionStorage.setItem("filter", JSON.stringify(filter));
 
-    location.pathname.includes('catalog') && filter !== null 
-    ?
-    setSearchParams(new URLSearchParams(`?Category=${item}`))
-    :
-    navigate(route);
+    location.pathname.includes('catalog') && filter !== null
+      ? setSearchParams(new URLSearchParams(`?Category=${item}`))
+      : navigate(route);
   }
 
   return (
     <nav className='flex flex-col gap-6 mb-3 lg:mb-0 lg:items-center lg:flex-row'>
-      {
-              CustomerHomeMenuItems.map((item) => 
-              <Label onClick={() => {handleFilteredNavigation(item.label,item.route);setCustomerDrawer(false);}} className="font-medium cursor-pointer text-[17px]" key={item.id} >
-                {item.label}
-              </Label>)
-      }
-      <Label>
-        <a target="_blank" href="/admin/dashboard" className="rounded-full px-3 py-1 inline border border-red-400">ADMIN</a>
-      </Label>
+      {CustomerHomeMenuItems.map((item) => (
+        <Label
+          onClick={() => { handleFilteredNavigation(item.label, item.route); setCustomerDrawer(false); }}
+          className="font-medium cursor-pointer text-[17px]"
+          key={item.id}
+        >
+          {item.label}
+        </Label>
+      ))}
+      {/* Conditionally render the "ADMIN" button */}
+      {user && user.role === "ADMIN" && (
+        <Label>
+          <a target="_blank" href="/admin/dashboard" className="rounded-full px-3 py-1 inline border border-red-400">ADMIN</a>
+        </Label>
+      )}
     </nav>
-    
   );
 }
 
@@ -286,7 +284,7 @@ function Cart_Account_Bar({ drawerMode, setCustomerDrawer }) {
                 <div className='flex flex-col'>
                   <span>
                     {user?.username}{" "}
-                    {user.role === "ADMIN" && (
+                    {user && user.role === "ADMIN" && (
                       <span className='px-1 text-xs rounded-full bg-yellow-200 border border-red-400'>
                         ADMIN
                       </span>

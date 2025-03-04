@@ -73,7 +73,34 @@ const updateOrderStatus = async (req,res) => {
     }
 }
 
+const deleteOrder = async (req, res) => {
+    try {
+        const { orderId } = req.params;
+
+        const deletedOrder = await Order.findByIdAndDelete(orderId);
+
+        if (!deletedOrder) {
+            return res.status(404).json({
+                success: false,
+                message: "Order not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Order deleted successfully",
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            success: false,
+            message: "Delete Order | Internal Server Error",
+        });
+    }
+};
+
 module.exports = {
     fetchAllOrders,
-    updateOrderStatus
+    updateOrderStatus,
+    deleteOrder
 }
