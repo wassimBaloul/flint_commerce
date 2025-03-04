@@ -3,6 +3,7 @@ require('dotenv').config();
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const DB_Connect = require('./db.js');
+const cors = require('cors'); 
 const app = express()
 const PORT = process.env.PORT || 5000;
 const AuthRouter = require('./routes/auth/Auth_Routes.js')
@@ -20,7 +21,8 @@ const AnalyticsRouter = require("./routes/admin/Analytics_Routes.js")
 const { Cloudinary_Connect } = require('./utility/cloudinary.js');
 const allowedOrigins = [
     "http://localhost:3000",
-    "http://localhost:5173"
+    "http://localhost:5173",
+    "https://e-com-flint.netlify.app"
 ];
 app.use(
     cors({
